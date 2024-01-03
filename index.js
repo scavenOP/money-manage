@@ -1,21 +1,40 @@
 window.onload = function() {
     var username = localStorage.getItem('username');
+     // Get the transaction form and the login button
+  var transactionForm = document.getElementById('transaction-form');
+  var homeloginButton = document.getElementById('login-button');
+
     // Get the All Transactions link
   var allTransactionsLink = document.querySelector('.navbar-nav .nav-item:nth-child(2) .nav-link');
+  var addTransactionsLink = document.querySelector('.navbar-nav .nav-item:nth-child(1) .nav-link');
+  var expenseLink = document.querySelector('.navbar-nav .nav-item:nth-child(3) .nav-link');
   var loginButton = document.getElementById('login-item');
   var signupButton = document.getElementById('signup-item');
   var usernameDisplay = document.getElementById('username-display');
   var logoutButton = document.getElementById('logout-item');
+  var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
   
     if (!username) {
       // Open the login modal
       
 
-      var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
+      
       loginModal.show();
       // Disable the All Transactions link
     allTransactionsLink.classList.add('disabled');
     allTransactionsLink.href = '#';
+
+    addTransactionsLink.classList.add('disabled');
+    expenseLink.classList.add('disabled');
+
+    // If the user is not logged in, hide the transaction form and show the login button
+    transactionForm.style.display = 'none';
+    homeloginButton.style.display = 'block';
+    homeloginButton.addEventListener('click', function() {
+      // Open the login modal
+      // Replace 'loginModal' with the id of your login modal
+      loginModal.show();
+    });
     }else {
         signupButton.style.display = 'none';
       loginButton.style.display = 'none';
@@ -24,9 +43,16 @@ window.onload = function() {
     logoutButton.style.display = 'block';
         // Enable the All Transactions link
         allTransactionsLink.classList.remove('disabled');
+        addTransactionsLink.classList.remove('disabled');
+        expenseLink.classList.remove('disabled');
         allTransactionsLink.href = '/all-transactions';
+
+        transactionForm.style.display = 'block';
+    homeloginButton.style.display = 'none';
       }
   };
+
+
 
   document.getElementById('add-transaction-item').addEventListener('click', function(event) {
     event.preventDefault();
@@ -203,6 +229,11 @@ document.getElementById('login-link').addEventListener('click', function(event) 
 
   document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    var submitButton = document.getElementById('login-sumbmit-button');
+
+    // Add a loader to the button and disable it
+    submitButton.innerHTML = 'Loading...';
+    submitButton.disabled = true;
   
     // Get the form data
     var loginUsername = document.getElementById('loginUsername').value;
@@ -243,6 +274,13 @@ document.getElementById('login-link').addEventListener('click', function(event) 
     document.getElementById('transaction-form').style.display = 'block';
     var allTransactionsLink = document.querySelector('.navbar-nav .nav-item:nth-child(2) .nav-link');
     allTransactionsLink.classList.remove('disabled');
+    var addTransactionsLink = document.querySelector('.navbar-nav .nav-item:nth-child(1) .nav-link');
+    addTransactionsLink.classList.remove('disabled');
+    var expenseLink = document.querySelector('.navbar-nav .nav-item:nth-child(3) .nav-link');
+    expenseLink.classList.remove('disabled');
+
+    var homeloginButton = document.getElementById('login-button');
+    homeloginButton.style.display = 'none';
   }
 })
 .catch((error) => alert(error.message));

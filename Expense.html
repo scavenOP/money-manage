@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Dashboard</h1>
+    <div class="card">
+      <div class="card-body">
+        <p id="current-month-expense">Current Month Expense: Loading...</p>
+        <p id="current-year-expense">Current Year Expense: Loading...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <a href="index.html" class="btn btn-primary">Go Back</a>
+  </div>
+
+  <!-- Your script to fetch data from the API -->
+  <script>
+    // Get the username from local storage
+var username = localStorage.getItem('username');
+
+// Fetch data for the current month expense from the API
+fetch(`https://money-management-6dvx.onrender.com/currentMonthExpense/${username}`)
+  .then(response => response.json())
+  .then(data => {
+    // Get the current month expense
+    var currentMonthExpense = data;
+
+    // Display the current month expense
+    document.getElementById('current-month-expense').textContent = 'Current Month Expense: ' + currentMonthExpense;
+  })
+  .catch(error => console.error('Error:', error));
+
+// Fetch data for the current year expense from the API
+// Replace 'currentYearExpenseURL' with your actual API URL
+fetch(`https://money-management-6dvx.onrender.com/currentYearExpense/${username}`)
+  .then(response => response.json())
+  .then(data => {
+    // Get the current year expense
+    var currentYearExpense = data;
+
+    // Display the current year expense
+    document.getElementById('current-year-expense').textContent = 'Current Year Expense: ' + currentYearExpense;
+  })
+  .catch(error => console.error('Error:', error));
+  </script>
+
+  <!-- Bootstrap JS and its dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
