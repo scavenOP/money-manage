@@ -27,9 +27,18 @@
   <script>
     // Get the username from local storage
 var username = localStorage.getItem('username');
+var apitouse;
+if(username){
+  if(username === 'niladri'){
+    apitouse="https://money-management-6dvx.onrender.com";
+  }else{
+    console.log("mampi");
+    apitouse="https://money-management-mampi.onrender.com";
+  }
+}
 
 // Fetch data for the current month expense from the API
-fetch(`https://money-management-6dvx.onrender.com/currentMonthExpense/${username}`)
+fetch(`${apitouse}/currentMonthExpense/${username}`)
   .then(response => response.json())
   .then(data => {
     // Get the current month expense
@@ -42,7 +51,7 @@ fetch(`https://money-management-6dvx.onrender.com/currentMonthExpense/${username
 
 // Fetch data for the current year expense from the API
 // Replace 'currentYearExpenseURL' with your actual API URL
-fetch(`https://money-management-6dvx.onrender.com/currentYearExpense/${username}`)
+fetch(`${apitouse}/currentYearExpense/${username}`)
   .then(response => response.json())
   .then(data => {
     // Get the current year expense

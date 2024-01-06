@@ -1,16 +1,10 @@
-fetch('https://money-management-6dvx.onrender.com/api/MoneyManagement/test')
-      .then(response => response.json())
-      .then(data => {
-        // Hide the loading message and show the content
-        document.getElementById('page-loading').style.display = 'none';
-        document.getElementById('main-container').style.display = 'block';
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('loading').textContent = 'Failed to load data from the server.';
-      });
 
 
+
+
+var apis=["https://money-management-6dvx.onrender.com/api/MoneyManagement/test","https://money-management-mampi.onrender.com/api/MoneyManagement/test"]
+
+var apitouse;
 
 window.onload = function() {
     var username = localStorage.getItem('username');
@@ -27,6 +21,33 @@ window.onload = function() {
   var usernameDisplay = document.getElementById('username-display');
   var logoutButton = document.getElementById('logout-item');
   var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {});
+
+  var user = localStorage.getItem('username');
+
+if(user){
+  if(user === 'niladri'){
+    apitouse="https://money-management-6dvx.onrender.com";
+  }else{
+    console.log("mampi");
+    apitouse="https://money-management-mampi.onrender.com";
+  }
+}
+
+
+  Promise.all([
+    fetch(apis[0]),
+    fetch(apis[1])
+  ])
+  .then(responses => Promise.all(responses.map(response => response.json())))
+  .then(data => {
+    // Hide the loading page and show the content
+    document.getElementById('page-loading').style.display = 'none';
+    document.getElementById('main-container').style.display = 'block';
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    document.getElementById('loading').textContent = 'Failed to load data from the server.';
+  });
   
     if (!username) {
       // Open the login modal
@@ -77,10 +98,22 @@ window.onload = function() {
 
 
 
-
+  function myFunction() {
+    document.getElementById("submitB").disabled = true;
+  }
 
 function submitForm(event) {
     event.preventDefault();
+
+    myFunction();
+
+
+    var submitButto = document.getElementById('submitB');
+    if (submitButto) {
+      console.log("apitouse");
+    }
+    submitButto.innerHTML = 'Loading...';
+    submitButto.disabled = true;
 
     let formData = new FormData(event.target);
     let jsonObject = {};
@@ -92,9 +125,10 @@ function submitForm(event) {
     // Add the current date to the jsonObject
     jsonObject.date = new Date().toISOString();
     jsonObject.user = localStorage.getItem('username');
+    
 
     fetch(
-      "https://money-management-6dvx.onrender.com/api/MoneyManagement",
+      `${apitouse}/api/MoneyManagement`,
       {
         method: "POST",
         headers: {
@@ -106,6 +140,8 @@ function submitForm(event) {
       .then((response) => {
         if (response.ok) {
           alert("Data inserted successfully");
+          submitButto.textContent = 'Submit';
+      submitButto.disabled = false;
           return response.json();
         } else {
           throw new Error("Error: " + response.status);
@@ -113,6 +149,7 @@ function submitForm(event) {
       })
       .then((data) => console.log(data))
       .catch((error) => console.error("Error:", error));
+      
 
       this.reset();
   }
@@ -128,7 +165,7 @@ function submitForm(event) {
 document.getElementById('loading-screen').style.display = 'block';
 
 
-fetch(`https://money-management-6dvx.onrender.com/api/MoneyManagement/${localStorage.getItem("username")}`)
+fetch(`${apitouse}/api/MoneyManagement/${localStorage.getItem("username")}`)
     .then(response => response.json())
     .then(data => {
         
@@ -254,7 +291,7 @@ document.getElementById('login-link').addEventListener('click', function(event) 
     var loginPassword = document.getElementById('loginPassword').value;
   
     // Make the API call to login
-    fetch('https://money-management-6dvx.onrender.com/login', {
+    fetch(`https://money-management-6dvx.onrender.com/login`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -296,6 +333,7 @@ document.getElementById('login-link').addEventListener('click', function(event) 
     var homeloginButton = document.getElementById('login-button');
     homeloginButton.style.display = 'none';
   }
+  location.reload();
 })
 .catch((error) => alert(error.message));
   });
@@ -308,7 +346,7 @@ document.getElementById('login-link').addEventListener('click', function(event) 
     var signupPassword = document.getElementById('signupPassword').value;
   
     // Make the API call to sign up
-    fetch('https://money-management-6dvx.onrender.com/signup', {
+    fetch(`https://money-management-6dvx.onrender.com/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
