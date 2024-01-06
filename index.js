@@ -1,3 +1,17 @@
+fetch('https://money-management-6dvx.onrender.com/api/MoneyManagement/test')
+      .then(response => response.json())
+      .then(data => {
+        // Hide the loading message and show the content
+        document.getElementById('page-loading').style.display = 'none';
+        document.getElementById('main-container').style.display = 'block';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('loading').textContent = 'Failed to load data from the server.';
+      });
+
+
+
 window.onload = function() {
     var username = localStorage.getItem('username');
      // Get the transaction form and the login button
