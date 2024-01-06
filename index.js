@@ -274,7 +274,7 @@ document.getElementById('login-link').addEventListener('click', function(event) 
   document.getElementById('logout-item').style.display = 'none';
 
   // Redirect to "/"
-  window.location.href = 'https://scavenop.github.io/money-manage';;
+  window.location.href = 'https://scavenop.github.io/money-manage';
   });
 
 
