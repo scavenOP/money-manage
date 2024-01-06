@@ -274,7 +274,7 @@ document.getElementById('login-link').addEventListener('click', function(event) 
   document.getElementById('logout-item').style.display = 'none';
 
   // Redirect to "/"
-  window.location.href = "/";
+  window.location.href = './index.html';;
   });
 
 
